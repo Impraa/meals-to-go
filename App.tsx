@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import {
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  StatusBar as StatBar,
+  View,
+} from "react-native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.searchContainer}>
+          <Text>Search</Text>
+        </View>
+        <View style={styles.listContainer}>
+          <Text>List</Text>
+        </View>
+      </SafeAreaView>
       <StatusBar style="auto" />
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: Platform.OS === "android" ? StatBar.currentHeight : 0,
+  },
+  searchContainer: {
+    flex: 0.075,
+    backgroundColor: "green",
+    justifyContent: "center",
+  },
+  listContainer: {
+    flex: 0.925,
+    backgroundColor: "blue",
   },
 });
