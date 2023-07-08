@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
-import RestaurantInfo from "../components/restaurantInfo";
+import RestaurantInfo from "../components/RestaurantCard";
 
 export const RestaurantScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -27,7 +27,19 @@ export const RestaurantScreen = () => {
         />
       </View>
       <View style={styles.listContainer}>
-        <RestaurantInfo />
+        <RestaurantInfo
+          restaurant={{
+            name: "Some Restaurant",
+            icon: "nes",
+            photos: [
+              "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
+            ],
+            address: "100 some random street",
+            isOpenNow: true,
+            rating: 4,
+            isClosedTemporarily: false,
+          }}
+        />
       </View>
     </SafeAreaView>
   );
