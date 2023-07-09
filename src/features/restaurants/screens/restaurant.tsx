@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import RestaurantInfo from "../components/RestaurantCard";
+import { space } from "../../../utils/Infrastructure";
 
 export const RestaurantScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -19,6 +20,7 @@ export const RestaurantScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <Searchbar
+          elevation={5}
           style={styles.searchBar}
           placeholder="Search"
           onChangeText={onChangeSearch}
@@ -51,13 +53,11 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "android" ? StatBar.currentHeight : 0,
   },
   searchContainer: {
-    padding: 15,
-    backgroundColor: "green",
+    padding: space[3],
     justifyContent: "center",
   },
   listContainer: {
     flex: 1,
-    backgroundColor: "blue",
   },
   searchBar: {
     backgroundColor: "white",

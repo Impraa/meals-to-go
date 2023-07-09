@@ -27,7 +27,7 @@ export const colors = {
   },
 };
 
-export const sizes = ["8px", "16px", "32px", "64px", "128px"];
+export const sizes = [8, 16, 32, 64, 128];
 
 export const fonts = {
   body: "Oswald_400Regular",
@@ -42,20 +42,20 @@ export const fontWeights = {
 };
 
 export const fontSizes = {
-  caption: "12px",
-  button: "14px",
-  body: "16px",
-  title: "20px",
-  h5: "24px",
-  h4: "34px",
-  h3: "45px",
-  h2: "56px",
-  h1: "112px",
+  caption: 12,
+  button: 14,
+  body: 16,
+  title: 20,
+  h5: 24,
+  h4: 34,
+  h3: 45,
+  h2: 56,
+  h1: 112,
 };
 
 export const lineHeights = {
-  title: "28px",
-  copy: "20px",
+  title: 28,
+  copy: 20,
 };
 
-export const space = ["0px", "4px", "8px", "16px", "32px", "64px"];
+export const space = [0, 4, 8, 16, 32, 64];
