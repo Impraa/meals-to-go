@@ -1,11 +1,12 @@
 import React from "react";
 
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Image } from "react-native";
 import { RestaurantType } from "../../../utils/Interfaces";
 import { Card, Title } from "react-native-paper";
 import { colors, fontSizes, fonts, space } from "../../../utils/Infrastructure";
 import { SvgXml } from "react-native-svg";
-import Star from "../../../utils/Star";
+import Star from "../../../../assets/Star";
+import Open from "../../../../assets/Open";
 
 const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
   restaurant,
@@ -21,10 +22,20 @@ const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
       />
       <View style={styles.info}>
         <Title style={styles.name}>{restaurant.name}</Title>
-        <View style={styles.rating}>
-          {ratingArray.map((item, key) => {
-            return <SvgXml key={key} xml={Star} width={20} height={20} />;
-          })}
+        <View style={styles.ratingAndOpen}>
+          <View style={styles.rating}>
+            {ratingArray.map((item, key) => {
+              return <SvgXml key={key} xml={Star} width={20} height={20} />;
+            })}
+          </View>
+          <View style={styles.openAndIcon}>
+            {restaurant.isOpenNow ? (
+              <SvgXml xml={Open} width={20} height={20} />
+            ) : (
+              <Text style={styles.restaurantClosed}>CLOSED TEMPORARLIY</Text>
+            )}
+            <Image style={styles.icon} source={{ uri: restaurant.icon }} />
+          </View>
         </View>
         <Text style={styles.address}>{restaurant.address}</Text>
       </View>
@@ -37,6 +48,7 @@ export default RestaurantInfo;
 const styles = StyleSheet.create({
   container: {
     margin: space[3],
+    marginBottom: 25,
     backgroundColor: colors.bg.primary,
   },
   cardCover: {
@@ -57,6 +69,24 @@ const styles = StyleSheet.create({
   },
   rating: {
     flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: space[1],
+  },
+  ratingAndOpen: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  restaurantClosed: {
+    fontFamily: fonts.heading,
+    color: colors.text.error,
+  },
+  openAndIcon: {
+    flexDirection: "row",
+  },
+  icon: {
+    height: 15,
+    width: 15,
+    padding: 10,
+    marginHorizontal: 10,
   },
 });
