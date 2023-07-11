@@ -1,21 +1,30 @@
-import antwerp from "./antwerp.json";
-import chicago from "./chicago.json";
-import toronto from "./toronto.json";
-import san_francisco from "./san_francisco.json";
+import express, { Request, Response } from "express";
 
-export const mocks = {
-  "51.219448,4.402464": antwerp,
-  "43.653225,-79.383186": toronto,
-  "41.878113,-87.629799": chicago,
-  "37.7749295,-122.4194155": san_francisco,
-};
+const app = express();
 
-export const mockImages = [
-  "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-  "https://www.foodiesfeed.com/wp-content/uploads/2019/04/mae-mu-oranges-ice-600x750.jpg",
-  "https://www.foodiesfeed.com/wp-content/uploads/2020/08/detail-of-pavlova-strawberry-piece-of-cake-600x800.jpg",
-  "https://www.foodiesfeed.com/wp-content/uploads/2019/04/mae-mu-baking-600x750.jpg",
-  "https://www.foodiesfeed.com/wp-content/uploads/2019/04/mae-mu-pancakes-600x750.jpg",
-  "https://www.foodiesfeed.com/wp-content/uploads/2019/02/messy-pizza-on-a-black-table-600x400.jpg",
-  "https://www.foodiesfeed.com/wp-content/uploads/2019/02/pizza-ready-for-baking-600x400.jpg",
-];
+//Database
+
+import mongoose from "mongoose";
+import mongoSanitize from "express-mongo-sanitize";
+
+mongoose.connect(process.env.DB_URL || "mongodb://localhost:27017/Meals-To-Go");
+
+mongoose.connection.on(
+  "error",
+  console.error.bind(console, "Connection error")
+);
+mongoose.connection.once("open", () => {
+  console.log("Database connected");
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(mongoSanitize());
+
+app.all("*", (req: Request, res: Response) => {
+  res.status(404).send("Method not found");
+});
+
+app.listen(3000, () => {
+  console.log(`Listening on a port 3000`);
+});

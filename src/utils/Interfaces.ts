@@ -6,4 +6,22 @@ export type RestaurantType = {
   rating: number;
   isOpenNow: boolean;
   isClosedTemporarily: boolean;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+    viewport: {
+      lat: number;
+      lng: number;
+      northeast?: {
+        lat: number;
+        lng: number;
+      };
+      southwest?: {
+        lat: number;
+        lng: number;
+      };
+    };
+  };
 };

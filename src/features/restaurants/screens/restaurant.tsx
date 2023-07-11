@@ -13,6 +13,7 @@ import { Searchbar } from "react-native-paper";
 import RestaurantInfo from "../components/RestaurantCard";
 import { space } from "../../../utils/Infrastructure";
 import { RestaurantType } from "../../../utils/Interfaces";
+import React from "react";
 
 const restaurantData: RestaurantType[] = [
   {
