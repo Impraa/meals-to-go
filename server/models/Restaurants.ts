@@ -27,10 +27,6 @@ const restaurantSchema = new Schema<RestaurantType>({
     type: Boolean,
     required: true,
   },
-  isClosedTemporarily: {
-    type: Boolean,
-    required: true,
-  },
   geometry: {
     viewport: {
       lat: {

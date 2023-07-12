@@ -5,7 +5,6 @@ export type RestaurantType = {
   address: string;
   rating: number;
   isOpenNow: boolean;
-  isClosedTemporarily: boolean;
   geometry: {
     location: {
       lat: number;
