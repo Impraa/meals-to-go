@@ -28,34 +28,30 @@ const restaurantSchema = new Schema<RestaurantType>({
     required: true,
   },
   geometry: {
+    location: {
+      lat: {
+        type: Number,
+      },
+      lng: {
+        type: Number,
+      },
+    },
     viewport: {
-      lat: {
-        type: Number,
-        required: true,
+      northeast: {
+        lat: {
+          type: Number,
+        },
+        lng: {
+          type: Number,
+        },
       },
-      lng: {
-        type: Number,
-        required: true,
-      },
-    },
-    northeast: {
-      lat: {
-        type: Number,
-        required: true,
-      },
-      lng: {
-        type: Number,
-        required: true,
-      },
-    },
-    southwest: {
-      lat: {
-        type: Number,
-        required: true,
-      },
-      lng: {
-        type: Number,
-        required: true,
+      southwest: {
+        lat: {
+          type: Number,
+        },
+        lng: {
+          type: Number,
+        },
       },
     },
   },

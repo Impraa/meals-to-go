@@ -11,8 +11,6 @@ export type RestaurantType = {
       lng: number;
     };
     viewport: {
-      lat: number;
-      lng: number;
       northeast?: {
         lat: number;
         lng: number;
@@ -23,4 +21,9 @@ export type RestaurantType = {
       };
     };
   };
+};
+
+export type RestaurantContextValue = {
+  restaurant: RestaurantType | null;
+  setRestaurant: (restaurant: RestaurantType | null) => void;
 };

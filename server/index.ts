@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 import express, { Request, Response } from "express";
 
 const app = express();
@@ -6,6 +9,7 @@ const app = express();
 
 import mongoose from "mongoose";
 import mongoSanitize from "express-mongo-sanitize";
+import Restaurant from "./routes/Restaurant";
 
 mongoose.connect(process.env.DB_URL || "mongodb://localhost:27017/Meals-To-Go");
 
@@ -21,10 +25,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
 
+app.use("/restaurant", Restaurant);
+
 app.all("*", (req: Request, res: Response) => {
   res.status(404).send("Method not found");
 });
 
 app.listen(3000, () => {
-  console.log(`Listening on a port 3000`);
+  console.log(`Listening on a port 3000 `);
 });

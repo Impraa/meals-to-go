@@ -36,8 +36,6 @@ router.post("/", async (req: Request, res: Response) => {
     isOpenNow,
     locationLat,
     locationLng,
-    viewportLat,
-    viewportLng,
     northeastLat,
     northeastLng,
     southwestLat,
@@ -55,8 +53,6 @@ router.post("/", async (req: Request, res: Response) => {
 
     restaurant.geometry.location.lat = locationLat;
     restaurant.geometry.location.lng = locationLng;
-    restaurant.geometry.viewport.lat = viewportLat;
-    restaurant.geometry.viewport.lng = viewportLng;
 
     restaurant.geometry.viewport.northeast!.lat = northeastLat;
     restaurant.geometry.viewport.northeast!.lng = northeastLng;
@@ -72,7 +68,7 @@ router.post("/", async (req: Request, res: Response) => {
 
     return res.status(201).send(restaurant);
   } catch (error) {
-    return res.status(500).send("Database error");
+    return res.status(500).send(`Database error ${error}`);
   }
 });
 
@@ -98,8 +94,6 @@ router.put("/", async (req: Request, res: Response) => {
     isOpenNow,
     locationLat,
     locationLng,
-    viewportLat,
-    viewportLng,
     northeastLat,
     northeastLng,
     southwestLat,
@@ -118,8 +112,6 @@ router.put("/", async (req: Request, res: Response) => {
       restaurant.isOpenNow = isOpenNow;
       restaurant.geometry.location.lat = locationLat;
       restaurant.geometry.location.lng = locationLng;
-      restaurant.geometry.viewport.lat = viewportLat;
-      restaurant.geometry.viewport.lng = viewportLng;
 
       if (restaurant.geometry.viewport.northeast) {
         restaurant.geometry.viewport.northeast.lat = northeastLat;
