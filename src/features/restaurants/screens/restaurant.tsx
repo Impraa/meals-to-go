@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import {
   Platform,
   SafeAreaView,
@@ -14,58 +15,33 @@ import RestaurantInfo from "../components/RestaurantCard";
 import { space } from "../../../utils/Infrastructure";
 import { RestaurantType } from "../../../utils/Interfaces";
 import React from "react";
-
-const restaurantData: RestaurantType[] = [
-  {
-    name: "Some Restaurant",
-    icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
-    photos: [
-      "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-    ],
-    address: "100 some random street",
-    isOpenNow: true,
-    rating: 4,
-    isClosedTemporarily: false,
-  },
-  {
-    name: "Some Restaurant2",
-    icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
-    photos: [
-      "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-    ],
-    address: "100 some random street",
-    isOpenNow: true,
-    rating: 4,
-    isClosedTemporarily: false,
-  },
-  {
-    name: "Some Restaurant3",
-    icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
-    photos: [
-      "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-    ],
-    address: "100 some random street",
-    isOpenNow: true,
-    rating: 4,
-    isClosedTemporarily: false,
-  },
-  {
-    name: "Some Restaurant4",
-    icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
-    photos: [
-      "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-    ],
-    address: "100 some random street",
-    isOpenNow: true,
-    rating: 4,
-    isClosedTemporarily: false,
-  },
-];
+import { RestaurantContext } from "../../../../context/RestaurantContext";
 
 export const RestaurantScreen = () => {
+  useEffect(() => {
+    const FetchRestaurantData = async () => {
+      axios
+        .get("http://192.168.1.3:3000/restaurant/", {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        })
+        .then((response) => response.data)
+        .then((data) => {
+          setRestaurant(data as unknown as RestaurantType[]);
+        })
+        .catch((error) => console.log(error));
+    };
+
+    FetchRestaurantData();
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const { restaurant, setRestaurant } = useContext(RestaurantContext);
+
   const onChangeSearch = (query: string) => setSearchQuery(query);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
@@ -79,11 +55,11 @@ export const RestaurantScreen = () => {
         />
       </View>
       <FlatList
-        data={restaurantData}
+        data={restaurant}
         renderItem={({ item }) => {
           return <RestaurantInfo restaurant={item} />;
         }}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item._id}
         contentContainerStyle={styles.containerStyle}
       />
     </SafeAreaView>

@@ -1,4 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export type RestaurantType = {
+  _id: string;
   name: string;
   icon: string;
   photos: string[];
@@ -24,6 +27,6 @@ export type RestaurantType = {
 };
 
 export type RestaurantContextValue = {
-  restaurant: RestaurantType | null;
-  setRestaurant: (restaurant: RestaurantType | null) => void;
+  restaurant: RestaurantType[] | null;
+  setRestaurant: (restaurant: RestaurantType[] | null) => void;
 };

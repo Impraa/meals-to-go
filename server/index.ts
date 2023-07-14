@@ -3,6 +3,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 import express, { Request, Response } from "express";
 
+import cors from "cors";
+
 const app = express();
 
 //Database
@@ -21,6 +23,12 @@ mongoose.connection.once("open", () => {
   console.log("Database connected");
 });
 
+app.use(
+  cors({
+    origin: "exp://192.168.1.3:19000",
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
@@ -32,5 +40,5 @@ app.all("*", (req: Request, res: Response) => {
 });
 
 app.listen(3000, () => {
-  console.log(`Listening on a port 3000 `);
+  console.log(`Listening on a port 3000`);
 });

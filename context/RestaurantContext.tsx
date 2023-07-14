@@ -12,7 +12,7 @@ export const RestaurantContext = createContext<RestaurantContextValue>({
 export const RestaurantProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [restaurant, setRestaurant] = useState<RestaurantType | null>(null);
+  const [restaurant, setRestaurant] = useState<RestaurantType[] | null>(null);
 
   return (
     <RestaurantContext.Provider value={{ restaurant, setRestaurant }}>
