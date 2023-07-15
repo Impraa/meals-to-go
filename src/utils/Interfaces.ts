@@ -29,4 +29,6 @@ export type RestaurantType = {
 export type RestaurantContextValue = {
   restaurant: RestaurantType[] | null;
   setRestaurant: (restaurant: RestaurantType[] | null) => void;
+  isLoading: boolean | null;
+  setIsLoading: (isLoading: boolean | null) => void;
 };

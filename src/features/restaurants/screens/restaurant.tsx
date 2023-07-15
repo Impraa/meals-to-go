@@ -10,35 +10,17 @@ import {
   View,
   FlatList,
 } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { ActivityIndicator, Searchbar } from "react-native-paper";
 import RestaurantInfo from "../components/RestaurantCard";
-import { space } from "../../../utils/Infrastructure";
+import { colors, space } from "../../../utils/Infrastructure";
 import { RestaurantType } from "../../../utils/Interfaces";
 import React from "react";
 import { RestaurantContext } from "../../../../context/RestaurantContext";
 
 export const RestaurantScreen = () => {
-  useEffect(() => {
-    const FetchRestaurantData = async () => {
-      axios
-        .get("http://192.168.1.3:3000/restaurant/", {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        })
-        .then((response) => response.data)
-        .then((data) => {
-          setRestaurant(data as unknown as RestaurantType[]);
-        })
-        .catch((error) => console.log(error));
-    };
-
-    FetchRestaurantData();
-  }, []);
-
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const { restaurant, setRestaurant } = useContext(RestaurantContext);
+  const { restaurant, isLoading } = useContext(RestaurantContext);
 
   const onChangeSearch = (query: string) => setSearchQuery(query);
 
@@ -54,14 +36,24 @@ export const RestaurantScreen = () => {
           mode="view"
         />
       </View>
-      <FlatList
-        data={restaurant}
-        renderItem={({ item }) => {
-          return <RestaurantInfo restaurant={item} />;
-        }}
-        keyExtractor={(item) => item._id}
-        contentContainerStyle={styles.containerStyle}
-      />
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator
+            size={"large"}
+            animating={true}
+            color={colors.brand.primary}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={restaurant}
+          renderItem={({ item }) => {
+            return <RestaurantInfo restaurant={item} />;
+          }}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={styles.containerStyle}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -80,6 +72,11 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     backgroundColor: "white",
+  },
+  loadingContainer: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
   },
   containerStyle: { paddingHorizontal: 5, marginVertical: 12 },
 });
