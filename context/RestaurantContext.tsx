@@ -17,7 +17,7 @@ export const RestaurantProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [restaurant, setRestaurant] = useState<RestaurantType[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean | null>(true);
 
   const FetchRestaurantData = async () => {
     axios

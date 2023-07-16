@@ -22,7 +22,24 @@ export const RestaurantScreen = () => {
 
   const { restaurant, isLoading } = useContext(RestaurantContext);
 
-  const onChangeSearch = (query: string) => setSearchQuery(query);
+  const [filteredRestaurants, setFilteredRestaurants] = useState<
+    RestaurantType[] | null
+  >(restaurant);
+
+  const onChangeSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  useEffect(() => {
+    if (restaurant)
+      setFilteredRestaurants(
+        restaurant.filter((res) => {
+          return res.name
+            .toLocaleLowerCase()
+            .includes(searchQuery.toLocaleLowerCase());
+        })
+      );
+  }, [restaurant, searchQuery]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,7 +53,7 @@ export const RestaurantScreen = () => {
           mode="view"
         />
       </View>
-      {isLoading ? (
+      {isLoading || filteredRestaurants?.length === 0 ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator
             size={"large"}
@@ -46,11 +63,11 @@ export const RestaurantScreen = () => {
         </View>
       ) : (
         <FlatList
-          data={restaurant}
+          data={filteredRestaurants}
           renderItem={({ item }) => {
             return <RestaurantInfo restaurant={item} />;
           }}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item, index) => (item ? item._id : index.toString())}
           contentContainerStyle={styles.containerStyle}
         />
       )}
@@ -78,5 +95,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
   },
-  containerStyle: { paddingHorizontal: 5, marginVertical: 12 },
+  containerStyle: { paddingHorizontal: 5, marginVertical: 10 },
 });

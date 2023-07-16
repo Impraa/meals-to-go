@@ -89,4 +89,13 @@ const styles = StyleSheet.create({
     padding: 10,
     marginHorizontal: 10,
   },
+  noFoundTextContainer: {},
+  noFoundText: {
+    flex: 1,
+    fontSize: fontSizes.body,
+    alignContent: "center",
+    justifyContent: "center",
+
+    textAlign: "center",
+  },
 });
