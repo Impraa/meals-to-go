@@ -9,6 +9,8 @@ import {
   StatusBar as StatBar,
   View,
   FlatList,
+  Pressable,
+  TouchableOpacity,
 } from "react-native";
 import { ActivityIndicator, Searchbar } from "react-native-paper";
 import RestaurantInfo from "../components/RestaurantCard";
@@ -16,8 +18,13 @@ import { colors, space } from "../../../utils/Infrastructure";
 import { RestaurantType } from "../../../utils/Interfaces";
 import React from "react";
 import { RestaurantContext } from "../../../../context/RestaurantContext";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
 
-export const RestaurantScreen = () => {
+export const RestaurantScreen = ({
+  navigation,
+}: {
+  navigation: NavigationProp<ParamListBase>;
+}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const { restaurant, isLoading } = useContext(RestaurantContext);
@@ -65,7 +72,15 @@ export const RestaurantScreen = () => {
         <FlatList
           data={filteredRestaurants}
           renderItem={({ item }) => {
-            return <RestaurantInfo restaurant={item} />;
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("RestaurantDetail", { item })
+                }
+              >
+                <RestaurantInfo restaurant={item} />
+              </TouchableOpacity>
+            );
           }}
           keyExtractor={(item, index) => (item ? item._id : index.toString())}
           contentContainerStyle={styles.containerStyle}
@@ -95,5 +110,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
   },
-  containerStyle: { paddingHorizontal: 5, marginVertical: 10 },
+  containerStyle: { paddingHorizontal: 15, marginVertical: 10 },
 });

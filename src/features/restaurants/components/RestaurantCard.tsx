@@ -47,7 +47,6 @@ export default RestaurantInfo;
 
 const styles = StyleSheet.create({
   container: {
-    margin: space[3],
     marginBottom: 25,
     backgroundColor: colors.bg.primary,
   },

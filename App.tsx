@@ -30,7 +30,7 @@ export default function App() {
       <RestaurantProvider>
         <Navigator />
       </RestaurantProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </>
   );
 }
