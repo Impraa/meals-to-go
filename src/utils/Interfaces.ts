@@ -32,3 +32,9 @@ export type RestaurantContextValue = {
   isLoading: boolean | null;
   setIsLoading: (isLoading: boolean | null) => void;
 };
+
+export type FavouritesContextValue = {
+  favourites: RestaurantType[] | null;
+  add: (restaurant: RestaurantType) => void;
+  remove: (restaurant: RestaurantType) => void;
+};

@@ -7,6 +7,7 @@ import { colors, fontSizes, fonts, space } from "../../../utils/Infrastructure";
 import { SvgXml } from "react-native-svg";
 import Star from "../../../../assets/Star";
 import Open from "../../../../assets/Open";
+import { Favourite } from "../../../components/Favourite";
 
 const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
   restaurant,
@@ -15,6 +16,7 @@ const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
 
   return (
     <Card elevation={5} style={styles.container}>
+      <Favourite />
       <Card.Cover
         key={restaurant.name}
         source={{ uri: restaurant.photos[0] }}

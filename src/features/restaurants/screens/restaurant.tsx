@@ -19,6 +19,7 @@ import { RestaurantType } from "../../../utils/Interfaces";
 import React from "react";
 import { RestaurantContext } from "../../../../context/RestaurantContext";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import { FavouritesContext } from "../../../../context/FavouritesContext";
 
 export const RestaurantScreen = ({
   navigation,
@@ -28,6 +29,8 @@ export const RestaurantScreen = ({
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const { restaurant, isLoading } = useContext(RestaurantContext);
+
+  const { favourites } = useContext(FavouritesContext);
 
   const [filteredRestaurants, setFilteredRestaurants] = useState<
     RestaurantType[] | null

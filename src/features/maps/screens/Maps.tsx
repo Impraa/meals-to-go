@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import MapView from "react-native-maps";
+import MapView, { Callout, Marker } from "react-native-maps";
 import { View, Text, StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { RestaurantContext } from "../../../../context/RestaurantContext";
 import { RestaurantType } from "../../../utils/Interfaces";
 import { space } from "../../../utils/Infrastructure";
+import { MapCallout } from "../components/MapCallout";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
 
 export const locations = {
   antwerp: {
@@ -89,7 +91,9 @@ export const locations = {
   },
 };
 
-const Maps = () => {
+const Maps: React.FC<{
+  navigation: NavigationProp<ParamListBase>;
+}> = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState<string>("chicago");
   const [submitedValue, setSubmitedValue] = useState<string>("chicago");
 
@@ -126,16 +130,11 @@ const Maps = () => {
       ? locations[searchQuery.toLocaleLowerCase()].results[0].geometry.viewport
           .northeast.lat
       : 0;
-    console.log(northeastLat);
     const southwestLat = locations[submitedValue.toLocaleLowerCase()].results[0]
       .geometry.viewport.southwest
       ? locations[submitedValue.toLocaleLowerCase()].results[0].geometry
           .viewport.southwest.lat
       : 0;
-
-    console.log(
-      locations[submitedValue.toLocaleLowerCase()].results[0].geometry.location
-    );
 
     setLatDelta(northeastLat - southwestLat);
   }, [submitedValue]);
@@ -167,18 +166,28 @@ const Maps = () => {
           longitudeDelta: 0.02,
         }}
       >
-        {/*   {filteredRestaurants
-    ? filteredRestaurants.map((item) => (
-        <MapView.Marker
-          key={item._id}
-          coordinate={{
-            latitude: item.,
-            longitude: item.longitude,
-          }}
-          title={item.name}
-        />
-      ))
-    : null} */}
+        {filteredRestaurants
+          ? filteredRestaurants.map((item) => (
+              <Marker
+                key={item._id}
+                coordinate={{
+                  latitude: item.geometry.location.lat,
+                  longitude: item.geometry.location.lng,
+                }}
+                title={item.name}
+              >
+                <Callout
+                  onPress={() => {
+                    navigation.navigate("RestaurantDetail", {
+                      item: item,
+                    });
+                  }}
+                >
+                  <MapCallout restaurant={item} />
+                </Callout>
+              </Marker>
+            ))
+          : null}
       </MapView>
     </>
   );
@@ -195,7 +204,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
     width: "100%",
-    marginTop: space[3],
+    marginTop: space[4],
     padding: space[3],
     justifyContent: "center",
   },
