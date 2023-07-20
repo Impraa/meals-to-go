@@ -20,6 +20,7 @@ import React from "react";
 import { RestaurantContext } from "../../../../context/RestaurantContext";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import { FavouritesContext } from "../../../../context/FavouritesContext";
+import { FavouritesBar } from "../../../components/FavouritesBar";
 
 export const RestaurantScreen = ({
   navigation,
@@ -31,6 +32,8 @@ export const RestaurantScreen = ({
   const { restaurant, isLoading } = useContext(RestaurantContext);
 
   const { favourites } = useContext(FavouritesContext);
+
+  const [isToggled, setIsToggled] = useState<boolean>(false);
 
   const [filteredRestaurants, setFilteredRestaurants] = useState<
     RestaurantType[] | null
@@ -55,6 +58,8 @@ export const RestaurantScreen = ({
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <Searchbar
+          icon={"heart"}
+          onIconPress={() => setIsToggled(!isToggled)}
           elevation={5}
           style={styles.searchBar}
           placeholder="Search"
@@ -62,6 +67,7 @@ export const RestaurantScreen = ({
           value={searchQuery}
           mode="view"
         />
+        {isToggled && <FavouritesBar navigation={navigation} />}
       </View>
       {isLoading || filteredRestaurants?.length === 0 ? (
         <View style={styles.loadingContainer}>

@@ -16,7 +16,7 @@ const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
 
   return (
     <Card elevation={5} style={styles.container}>
-      <Favourite />
+      <Favourite restaurant={restaurant} />
       <Card.Cover
         key={restaurant.name}
         source={{ uri: restaurant.photos[0] }}
