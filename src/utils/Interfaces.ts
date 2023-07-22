@@ -38,3 +38,9 @@ export type FavouritesContextValue = {
   add: (restaurant: RestaurantType) => void;
   remove: (restaurant: RestaurantType) => void;
 };
+
+export type UserType = {
+  email: string;
+  password: string;
+  username: string;
+};

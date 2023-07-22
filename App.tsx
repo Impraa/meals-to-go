@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { RestaurantScreen } from "./src/features/restaurants/screens/restaurant";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   useFonts as useOswlad,
