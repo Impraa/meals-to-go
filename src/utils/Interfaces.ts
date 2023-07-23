@@ -44,3 +44,8 @@ export type UserType = {
   password: string;
   username: string;
 };
+
+export type UserContextValue = {
+  user: UserType | null;
+  setUser: (user: UserType | null) => void;
+};
