@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   NavigationContainer,
   ParamListBase,
@@ -9,8 +9,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Settings from "../../features/settings/screens/Settings";
 import Maps from "../../features/maps/screens/Maps";
 
+import { View, Text } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import RestaurantNavigator from "./RestaurantNavigator";
+import { UserContext } from "../../../context/UserContext";
+import { AccountNavigator } from "./AccountNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -41,13 +45,19 @@ const createScreenOptions = ({
 };
 
 function Navigator() {
+  const { user } = useContext(UserContext);
+
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={createScreenOptions}>
-        <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
-        <Tab.Screen name="Maps" component={Maps} />
-        <Tab.Screen name="Settings" component={Settings} />
-      </Tab.Navigator>
+      {user ? (
+        <Tab.Navigator screenOptions={createScreenOptions}>
+          <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
+          <Tab.Screen name="Maps" component={Maps} />
+          <Tab.Screen name="Settings" component={Settings} />
+        </Tab.Navigator>
+      ) : (
+        <AccountNavigator />
+      )}
     </NavigationContainer>
   );
 }

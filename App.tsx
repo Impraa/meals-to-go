@@ -11,6 +11,7 @@ import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import { RestaurantProvider } from "./context/RestaurantContext";
 import Navigator from "./src/utils/Navigation/Navigator";
 import { FavouritesProvider } from "./context/FavouritesContext";
+import { UserContextProvider } from "./context/UserContext";
 
 export default function App() {
   const [oswaldLoaded] = useOswlad({
@@ -27,12 +28,14 @@ export default function App() {
 
   return (
     <>
-      <FavouritesProvider>
-        <RestaurantProvider>
-          <Navigator />
-        </RestaurantProvider>
-        <StatusBar style="dark" />
-      </FavouritesProvider>
+      <UserContextProvider>
+        <FavouritesProvider>
+          <RestaurantProvider>
+            <Navigator />
+          </RestaurantProvider>
+        </FavouritesProvider>
+      </UserContextProvider>
+      <StatusBar style="dark" />
     </>
   );
 }
