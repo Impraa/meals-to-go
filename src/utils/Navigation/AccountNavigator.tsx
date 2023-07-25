@@ -5,6 +5,7 @@ import {
 import React from "react";
 import { View, Text } from "react-native";
 import { AccountScreen } from "../../features/user/screens/AccountScreen";
+import { LoginScreen } from "../../features/user/screens/LoginScreen.tsx";
 
 const Stack = createStackNavigator();
 
@@ -17,14 +18,7 @@ export const AccountNavigator = () => {
       }}
     >
       <Stack.Screen name="Main" component={AccountScreen} />
-      <Stack.Screen
-        name="Login"
-        component={() => (
-          <View>
-            <Text>Login screen</Text>
-          </View>
-        )}
-      />
+      <Stack.Screen name="Login" component={LoginScreen} />
     </Stack.Navigator>
   );
 };
