@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BackgroundImage } from "../components/BackgrundImage";
-import { Button, TextInput } from "react-native-paper";
-import { View, StyleSheet } from "react-native";
+import { ActivityIndicator, Button, TextInput } from "react-native-paper";
+import { View, StyleSheet, Text } from "react-native";
 import { colors } from "../../../utils/Infrastructure";
+import axios from "axios";
 import { UserType } from "../../../utils/Interfaces";
+import { UserContext } from "../../../../context/UserContext";
 
 export const LoginScreen = () => {
   const [accInfo, setAccInfo] = useState<UserType>({
@@ -12,15 +14,44 @@ export const LoginScreen = () => {
     username: "",
   });
 
+  const [error, setError] = useState<string | null>();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(null);
+    }, 2500);
+  }, [error]);
+
+  const logInUser = (accInfo: UserType) => {
+    axios
+      .post("http://192.168.1.3:3000/user/login", accInfo, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        withCredentials: true,
+      })
+      .then((response) => setUser(response.data))
+      .catch((error) => setError("Wrong password or username"));
+  };
+
   return (
     <BackgroundImage>
       <View style={styles.loginContainer}>
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text>{error}</Text>
+          </View>
+        )}
         <TextInput
-          label="Email"
+          label="Username"
           mode="outlined"
-          value={accInfo.email}
+          value={accInfo.username}
           onChangeText={(text) =>
-            setAccInfo((prevAccInfo) => ({ ...prevAccInfo, email: text }))
+            setAccInfo((prevAccInfo) => ({ ...prevAccInfo, username: text }))
           }
         />
         <TextInput
@@ -31,14 +62,23 @@ export const LoginScreen = () => {
             setAccInfo((prevAccInfo) => ({ ...prevAccInfo, password: text }))
           }
         />
-        <Button
-          rippleColor="#FFF"
-          icon="login"
-          mode="contained"
-          style={styles.button}
-        >
-          Login
-        </Button>
+        {isLoading ? (
+          <ActivityIndicator
+            size={"large"}
+            animating={true}
+            color={colors.brand.primary}
+          />
+        ) : (
+          <Button
+            rippleColor="#FFF"
+            icon="login"
+            mode="contained"
+            style={styles.button}
+            onPressOut={() => logInUser(accInfo)}
+          >
+            Login
+          </Button>
+        )}
       </View>
     </BackgroundImage>
   );
@@ -52,5 +92,12 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     backgroundColor: colors.brand.primary,
     marginBottom: 20,
+  },
+  errorContainer: {
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    marginBottom: 10,
   },
 });
