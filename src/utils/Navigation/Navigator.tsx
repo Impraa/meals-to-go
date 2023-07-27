@@ -15,6 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import RestaurantNavigator from "./RestaurantNavigator";
 import { UserContext } from "../../../context/UserContext";
 import { AccountNavigator } from "./AccountNavigator";
+import { FavouritesProvider } from "../../../context/FavouritesContext";
+import { RestaurantProvider } from "../../../context/RestaurantContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -50,11 +52,15 @@ function Navigator() {
   return (
     <NavigationContainer>
       {user ? (
-        <Tab.Navigator screenOptions={createScreenOptions}>
-          <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
-          <Tab.Screen name="Maps" component={Maps} />
-          <Tab.Screen name="Settings" component={Settings} />
-        </Tab.Navigator>
+        <FavouritesProvider>
+          <RestaurantProvider>
+            <Tab.Navigator screenOptions={createScreenOptions}>
+              <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
+              <Tab.Screen name="Maps" component={Maps} />
+              <Tab.Screen name="Settings" component={Settings} />
+            </Tab.Navigator>
+          </RestaurantProvider>
+        </FavouritesProvider>
       ) : (
         <AccountNavigator />
       )}

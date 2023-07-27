@@ -1,14 +1,23 @@
-import React, { ReactNode, useState, createContext, useEffect } from "react";
+import React, {
+  ReactNode,
+  useState,
+  createContext,
+  useEffect,
+  useContext,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FavouritesContextValue,
   RestaurantType,
 } from "../src/utils/Interfaces";
+import { UserContext } from "./UserContext";
 
 export const FavouritesContext = createContext({} as FavouritesContextValue);
 
 export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
   const [favourites, setFavourites] = useState<RestaurantType[]>([]);
+
+  const { user } = useContext(UserContext);
 
   const add = (restaurant: RestaurantType) => {
     setFavourites([...favourites, restaurant]);
@@ -25,7 +34,7 @@ export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
   const saveFavourite = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("favourties", jsonValue);
+      await AsyncStorage.setItem(`favourties-${user?.email}`, jsonValue);
     } catch (e) {
       console.log(e);
     }
@@ -33,7 +42,7 @@ export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
 
   const loadFavourites = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("favourties");
+      const jsonValue = await AsyncStorage.getItem(`favourties-${user?.email}`);
       if (jsonValue) {
         setFavourites(JSON.parse(jsonValue));
       }
@@ -43,12 +52,12 @@ export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    loadFavourites();
-  }, []);
+    if (user) loadFavourites();
+  }, [user]);
 
   useEffect(() => {
-    saveFavourite(favourites);
-  }, [favourites]);
+    if (user) saveFavourite(favourites);
+  }, [favourites, user]);
 
   return (
     <FavouritesContext.Provider value={{ favourites, add, remove }}>

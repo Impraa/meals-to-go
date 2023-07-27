@@ -29,11 +29,7 @@ export default function App() {
   return (
     <>
       <UserContextProvider>
-        <FavouritesProvider>
-          <RestaurantProvider>
-            <Navigator />
-          </RestaurantProvider>
-        </FavouritesProvider>
+        <Navigator />
       </UserContextProvider>
       <StatusBar style="dark" />
     </>
