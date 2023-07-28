@@ -17,6 +17,7 @@ import { UserContext } from "../../../context/UserContext";
 import { AccountNavigator } from "./AccountNavigator";
 import { FavouritesProvider } from "../../../context/FavouritesContext";
 import { RestaurantProvider } from "../../../context/RestaurantContext";
+import { SettingsNavigator } from "./SettingsNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -57,7 +58,7 @@ function Navigator() {
             <Tab.Navigator screenOptions={createScreenOptions}>
               <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
               <Tab.Screen name="Maps" component={Maps} />
-              <Tab.Screen name="Settings" component={Settings} />
+              <Tab.Screen name="Settings" component={SettingsNavigator} />
             </Tab.Navigator>
           </RestaurantProvider>
         </FavouritesProvider>

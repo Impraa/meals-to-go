@@ -8,6 +8,7 @@ import { SvgXml } from "react-native-svg";
 import Star from "../../../../assets/Star";
 import Open from "../../../../assets/Open";
 import { Favourite } from "../../../components/Favourite";
+import { FadeInView } from "../../../components/animations/FadeAnimation";
 
 const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
   restaurant,
@@ -15,33 +16,35 @@ const RestaurantInfo: React.FC<{ restaurant: RestaurantType }> = ({
   const ratingArray = Array.from(new Array(Math.floor(restaurant.rating)));
 
   return (
-    <Card elevation={5} style={styles.container}>
-      <Favourite restaurant={restaurant} />
-      <Card.Cover
-        key={restaurant.name}
-        source={{ uri: restaurant.photos[0] }}
-        style={styles.cardCover}
-      />
-      <View style={styles.info}>
-        <Title style={styles.name}>{restaurant.name}</Title>
-        <View style={styles.ratingAndOpen}>
-          <View style={styles.rating}>
-            {ratingArray.map((item, key) => {
-              return <SvgXml key={key} xml={Star} width={20} height={20} />;
-            })}
+    <FadeInView duration={1000}>
+      <Card elevation={5} style={styles.container}>
+        <Favourite restaurant={restaurant} />
+        <Card.Cover
+          key={restaurant.name}
+          source={{ uri: restaurant.photos[0] }}
+          style={styles.cardCover}
+        />
+        <View style={styles.info}>
+          <Title style={styles.name}>{restaurant.name}</Title>
+          <View style={styles.ratingAndOpen}>
+            <View style={styles.rating}>
+              {ratingArray.map((item, key) => {
+                return <SvgXml key={key} xml={Star} width={20} height={20} />;
+              })}
+            </View>
+            <View style={styles.openAndIcon}>
+              {restaurant.isOpenNow ? (
+                <SvgXml xml={Open} width={20} height={20} />
+              ) : (
+                <Text style={styles.restaurantClosed}>CLOSED TEMPORARLIY</Text>
+              )}
+              <Image style={styles.icon} source={{ uri: restaurant.icon }} />
+            </View>
           </View>
-          <View style={styles.openAndIcon}>
-            {restaurant.isOpenNow ? (
-              <SvgXml xml={Open} width={20} height={20} />
-            ) : (
-              <Text style={styles.restaurantClosed}>CLOSED TEMPORARLIY</Text>
-            )}
-            <Image style={styles.icon} source={{ uri: restaurant.icon }} />
-          </View>
+          <Text style={styles.address}>{restaurant.address}</Text>
         </View>
-        <Text style={styles.address}>{restaurant.address}</Text>
-      </View>
-    </Card>
+      </Card>
+    </FadeInView>
   );
 };
 

@@ -40,7 +40,8 @@
     "react-native-webview": "11.26.0",
     "styled-components": "^6.0.4",
     "ts-node-dev": "^2.0.0",
-    "lottie-react-native": "5.1.4"
+    "lottie-react-native": "5.1.4",
+    "expo-updates": "~0.16.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
