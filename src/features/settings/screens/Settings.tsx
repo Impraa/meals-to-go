@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Avatar, Button, List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../../utils/Infrastructure";
@@ -18,16 +18,21 @@ const Settings = ({
     <FadeInView duration={1000}>
       <SafeAreaView>
         <View style={{ alignItems: "center" }}>
-          <Avatar.Icon
-            size={75}
-            icon="human"
-            style={{ backgroundColor: "#2182BD" }}
-          />
-          <Text
-            style={{ marginVertical: 20, fontWeight: "bold", fontSize: 17.5 }}
+          <TouchableOpacity
+            style={{ alignItems: "center" }}
+            onPress={() => navigation.navigate("Camera")}
           >
-            {user?.email}
-          </Text>
+            <Avatar.Icon
+              size={75}
+              icon="human"
+              style={{ backgroundColor: "#2182BD" }}
+            />
+            <Text
+              style={{ marginVertical: 20, fontWeight: "bold", fontSize: 17.5 }}
+            >
+              {user?.email}
+            </Text>
+          </TouchableOpacity>
         </View>
         <List.Section>
           <List.Item

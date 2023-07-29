@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -37,6 +35,14 @@
     },
     "updates": {
       "url": "https://u.expo.dev/62f95fa0-74fe-4906-9b48-13b5d70e840c"
-    }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Meals to Go to access your camera."
+        }
+      ]
+    ]
   }
 }
