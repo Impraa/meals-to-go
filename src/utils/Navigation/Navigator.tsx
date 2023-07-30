@@ -18,6 +18,8 @@ import { AccountNavigator } from "./AccountNavigator";
 import { FavouritesProvider } from "../../../context/FavouritesContext";
 import { RestaurantProvider } from "../../../context/RestaurantContext";
 import { SettingsNavigator } from "./SettingsNavigator";
+import { CartNavigator } from "./CartNavigator";
+import { CartProvider } from "../../../context/CartContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +27,7 @@ const TAB_ICON = {
   Restaurant: "fast-food",
   Settings: "settings",
   Maps: "map",
+  Cart: "cart",
 };
 
 const createScreenOptions = ({
@@ -53,15 +56,18 @@ function Navigator() {
   return (
     <NavigationContainer>
       {user ? (
-        <FavouritesProvider>
-          <RestaurantProvider>
-            <Tab.Navigator screenOptions={createScreenOptions}>
-              <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
-              <Tab.Screen name="Maps" component={Maps} />
-              <Tab.Screen name="Settings" component={SettingsNavigator} />
-            </Tab.Navigator>
-          </RestaurantProvider>
-        </FavouritesProvider>
+        <CartProvider>
+          <FavouritesProvider>
+            <RestaurantProvider>
+              <Tab.Navigator screenOptions={createScreenOptions}>
+                <Tab.Screen name="Restaurant" component={RestaurantNavigator} />
+                <Tab.Screen name="Cart" component={CartNavigator} />
+                <Tab.Screen name="Maps" component={Maps} />
+                <Tab.Screen name="Settings" component={SettingsNavigator} />
+              </Tab.Navigator>
+            </RestaurantProvider>
+          </FavouritesProvider>
+        </CartProvider>
       ) : (
         <AccountNavigator />
       )}

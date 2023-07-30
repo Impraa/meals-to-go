@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose";
+import { Dispatch, SetStateAction } from "react";
 
 export type RestaurantType = {
   _id: string;
@@ -48,4 +49,11 @@ export type UserType = {
 export type UserContextValue = {
   user: UserType | null;
   setUser: (user: UserType | null) => void;
+};
+
+export type CartContextValue = {
+  cart: RestaurantType[] | null;
+  setCart: Dispatch<SetStateAction<RestaurantType[]>>;
+  addCartItem: (restaurant: RestaurantType) => void;
+  clearCart: () => void;
 };

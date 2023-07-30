@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Avatar, Button, List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colors } from "../../../utils/Infrastructure";
 import { UserContext } from "../../../../context/UserContext";
-import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import {
+  NavigationProp,
+  ParamListBase,
+  useFocusEffect,
+} from "@react-navigation/native";
 import { FadeInView } from "../../../components/animations/FadeAnimation";
 
 const Settings = ({
@@ -13,6 +18,16 @@ const Settings = ({
   navigation: NavigationProp<ParamListBase>;
 }) => {
   const { user, setUser } = useContext(UserContext);
+  const [photo, setPhoto] = useState<string | null>(null);
+
+  const getProfilePicture = async (user) => {
+    const photo = await AsyncStorage.getItem(`${user?.email}-photo`);
+    setPhoto(photo);
+  };
+
+  useFocusEffect(() => {
+    getProfilePicture(user);
+  });
 
   return (
     <FadeInView duration={1000}>
@@ -22,11 +37,19 @@ const Settings = ({
             style={{ alignItems: "center" }}
             onPress={() => navigation.navigate("Camera")}
           >
-            <Avatar.Icon
-              size={75}
-              icon="human"
-              style={{ backgroundColor: "#2182BD" }}
-            />
+            {!photo ? (
+              <Avatar.Icon
+                size={75}
+                icon="human"
+                style={{ backgroundColor: "#2182BD" }}
+              />
+            ) : (
+              <Avatar.Image
+                size={75}
+                source={{ uri: photo }}
+                style={{ backgroundColor: "#2182BD" }}
+              />
+            )}
             <Text
               style={{ marginVertical: 20, fontWeight: "bold", fontSize: 17.5 }}
             >

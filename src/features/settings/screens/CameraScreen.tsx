@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserContext } from "../../../../context/UserContext";
 
 export const CameraScreen = ({
   navigation,
 }: {
   navigation: NavigationProp<ParamListBase>;
 }) => {
-  const [type, setType] = useState(CameraType.back);
+  const cameraRef = useRef<Camera>(null);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+  const { user } = useContext(UserContext);
 
-  function toggleCameraType() {
-    setType((current) =>
-      current === CameraType.back ? CameraType.front : CameraType.back
-    );
-  }
+  const snap = async () => {
+    if (cameraRef.current) {
+      const photo = await cameraRef.current.takePictureAsync();
+      AsyncStorage.setItem(`${user?.email}-photo`, photo.uri);
+      navigation.goBack();
+    }
+  };
 
   if (!permission) {
     // Camera permissions are still loading
@@ -35,40 +40,17 @@ export const CameraScreen = ({
   }
 
   return (
-    <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
-    </View>
+    <Camera ref={cameraRef} style={styles.camera} type={CameraType.front}>
+      <TouchableOpacity style={styles.container} onPress={snap} />
+    </Camera>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
   camera: {
     flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: "flex-end",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
   },
 });
