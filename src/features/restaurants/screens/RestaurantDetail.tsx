@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "android" ? StatBar.currentHeight : 0,
   },
   button: {
-    backgroundColor: "#2182BD",
+    backgroundColor: "#696AC3",
     color: "white",
     marginBottom: 10,
     marginHorizontal: 50,

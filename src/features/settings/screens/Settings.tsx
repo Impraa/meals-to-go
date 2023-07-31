@@ -41,13 +41,13 @@ const Settings = ({
               <Avatar.Icon
                 size={75}
                 icon="human"
-                style={{ backgroundColor: "#2182BD" }}
+                style={{ backgroundColor: "#696AC3" }}
               />
             ) : (
               <Avatar.Image
                 size={75}
                 source={{ uri: photo }}
-                style={{ backgroundColor: "#2182BD" }}
+                style={{ backgroundColor: "#696AC3" }}
               />
             )}
             <Text

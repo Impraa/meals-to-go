@@ -6,14 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CartContext } from "../../../../context/CartContext";
 import { payRequest } from "../../../utils/Stripe";
 
-export const CartScreen = () => {
+export const CartScreen = ({ navigation }) => {
   const { cart, clearCart } = useContext(CartContext);
   const [name, setName] = useState<string>("");
   const [card, setCard] = useState<any>(null);
 
   const onPay = async () => {
     if (!card || !card.id) {
-      console.log("Error card");
+      console.log("Error card" + card);
       return;
     }
 
@@ -21,7 +21,9 @@ export const CartScreen = () => {
 
     const { status } = response;
 
-    console.log(status);
+    if (status && status === "succeeded") {
+      return navigation.navigate("Success");
+    }
   };
 
   return (
@@ -52,7 +54,7 @@ export const CartScreen = () => {
             textColor="white"
             rippleColor={"white"}
             style={{
-              backgroundColor: "#2182BD",
+              backgroundColor: "#696AC3",
               marginBottom: 10,
               marginHorizontal: 50,
             }}
@@ -66,7 +68,7 @@ export const CartScreen = () => {
             textColor="white"
             rippleColor={"white"}
             style={{
-              backgroundColor: "#2182BD",
+              backgroundColor: "#696AC3",
               marginBottom: 10,
               marginHorizontal: 50,
             }}
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   icon: {
-    backgroundColor: "#2182BD",
+    backgroundColor: "#696AC3",
     marginBottom: 15,
   },
   text: {

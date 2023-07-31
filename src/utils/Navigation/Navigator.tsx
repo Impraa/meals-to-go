@@ -44,7 +44,7 @@ const createScreenOptions = ({
         color={color}
       />
     ),
-    tabBarActiveTintColor: "tomato",
+    tabBarActiveTintColor: "#696AC3",
     tabBarInactiveTintColor: "gray",
     headerShown: false,
   };
